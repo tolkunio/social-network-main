@@ -2,7 +2,6 @@ import React from 'react';
 import s from '../Dialogs/Dialogs.module.css';
 import DialogItem from './DialogItem/DialogItem';
 import Message from './Message/Message';
-import {Dialog, MessageType} from '../../App';
 
 type DialogPropsType={
     dialogs:Dialog[],
