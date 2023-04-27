@@ -34,6 +34,7 @@ export type StoreType = {
     subscribe:(observer: () => void)=>void,
     getState:()=>RootStateType;
 }
+//main class
 const store: StoreType = {
     _state: {
         profilePage: {
