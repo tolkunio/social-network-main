@@ -1,12 +1,11 @@
 import React from 'react';
 import s from './MyPosts.module.css';
-import {PostData} from '../../../redux/state';
+import {ActionsTypes, AddPostAction, ChangeNewTextAction, PostData} from '../../../redux/state';
 import Post from './Post/Post';
 type ProfileInfoPropsType={
     msgForNewPost: string;
     posts:PostData[],
-    addPost:(text:string)=>void,
-    changeMessageCallback:(newMsg:string)=>void
+    dispatch:(action:ActionsTypes)=>void,
 }
 const MyPosts = (props:ProfileInfoPropsType) => {
 
@@ -14,10 +13,10 @@ const MyPosts = (props:ProfileInfoPropsType) => {
         <Post id={post.id} message={post.message} likesCount={post.likesCount}/>);
 
     const addPostHandler=()=> {
-        props.addPost(props.msgForNewPost);
+        props.dispatch(AddPostAction(props.msgForNewPost))
     }
     const changeMessageHandler=(newMsg:string)=> {
-        props.changeMessageCallback(newMsg);
+        props.dispatch(ChangeNewTextAction(newMsg));
     }
     return (
         <div className="posts">

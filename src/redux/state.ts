@@ -1,3 +1,5 @@
+import exp from 'constants';
+
 export type PostData = {
     id: number,
     message: string,
@@ -17,7 +19,8 @@ type ProfilePageType = {
 };
 export type DialogPageType = {
     dialogsData: Dialog[],
-    messagesData: MessageType[]
+    messagesData: MessageType[],
+    // newMessagesBody: string,
 }
 type SidebarType = {};
 export type RootStateType = {
@@ -26,16 +29,28 @@ export type RootStateType = {
     sidebar: SidebarType,
 }
 
+export type ActionsTypes = ReturnType<typeof AddPostAction> | ReturnType<typeof ChangeNewTextAction>;
+export const AddPostAction = (postText: string) => (
+    {
+        type: 'ADD-POST',
+        postText: postText
+    } as const
+);
+export const ChangeNewTextAction = (newMsgText: string) => (
+    {
+        type: 'CHANGE-NEW-TEXT',
+        newMsgText: newMsgText
+    } as const);
 export type StoreType = {
     _state: RootStateType;
-    changeNewText: (newText: string) => void,
-    addPost: (postText: string) => void,
-    _onChange:()=>void,
-    subscribe:(observer: () => void)=>void,
-    getState:()=>RootStateType;
+    _onChange: (state: RootStateType) => void,
+    _subscribe: (observer: (state: RootStateType) => void) => void,
+    getState: () => RootStateType;
+    dispatch: (action: ActionsTypes) => void;
 }
 //main class
 const store: StoreType = {
+
     _state: {
         profilePage: {
             posts: [
@@ -57,32 +72,37 @@ const store: StoreType = {
                 {id: 2, message: 'Good day'},
                 {id: 3, message: 'Hello'},
             ],
+            // newMessagesBody: ''
         },
         sidebar: '',
     },
 
-    changeNewText(newMsgText: string) {
-        this._state.profilePage.newPostText = newMsgText;
-        this._onChange();
-    },
 
-    addPost(postText: string) {
-        const newPost: PostData = {
-            id: 3,
-            message: postText,
-            likesCount: 0
-        };
-        this._state.profilePage.posts.push(newPost);
-        this._onChange();
-    },
-    _onChange(){
+    _onChange(state: RootStateType) {
         console.log('State changed');
     },
-    subscribe(observer){
+    _subscribe(observer) {
         this._onChange = observer;
     },
-    getState(){
+
+    getState() {
         return this._state;
-    }
+    },
+
+    dispatch(action): void {
+        if (action.type === 'ADD-POST') {
+            const newPost: PostData = {
+                id: 3,
+                message: action.postText,
+                likesCount: 0
+            };
+            this._state.profilePage.posts.push(newPost);
+            this._onChange(this._state);
+
+        } else if (action.type === 'CHANGE-NEW-TEXT') {
+            this._state.profilePage.newPostText = action.newMsgText;
+            this._onChange(this._state);
+        }
+    },
 }
 export default store;
