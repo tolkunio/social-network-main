@@ -1,4 +1,4 @@
-import exp from 'constants';
+import {profileReducer, ProfileTypes} from './profileReducer';
 
 export type PostData = {
     id: number,
@@ -13,7 +13,7 @@ type MessageType = {
     id: number;
     message: string;
 };
-type ProfilePageType = {
+export type ProfilePageType = {
     posts: PostData[],
     newPostText: string
 };
@@ -22,6 +22,9 @@ export type DialogPageType = {
     messagesData: MessageType[],
     // newMessagesBody: string,
 }
+const UPDATE_NEW_MESSAGE_BODY='UPDATE-NEW-MESSAGE-BODY';
+const SEND_MESSAGE='SEND-MESSAGE';
+
 type SidebarType = {};
 export type RootStateType = {
     profilePage: ProfilePageType,
@@ -29,27 +32,16 @@ export type RootStateType = {
     sidebar: SidebarType,
 }
 
-export type ActionsTypes = ReturnType<typeof AddPostAction> | ReturnType<typeof ChangeNewTextAction>;
-export const AddPostAction = (postText: string) => (
-    {
-        type: 'ADD-POST',
-        postText: postText
-    } as const
-);
-export const ChangeNewTextAction = (newMsgText: string) => (
-    {
-        type: 'CHANGE-NEW-TEXT',
-        newMsgText: newMsgText
-    } as const);
 export type StoreType = {
     _state: RootStateType;
     _onChange: (state: RootStateType) => void,
     _subscribe: (observer: (state: RootStateType) => void) => void,
     getState: () => RootStateType;
-    dispatch: (action: ActionsTypes) => void;
+    dispatch: (action: ProfileTypes) => void;
 }
+
 //main class
-const store: StoreType = {
+let store: StoreType = {
 
     _state: {
         profilePage: {
@@ -90,19 +82,8 @@ const store: StoreType = {
     },
 
     dispatch(action): void {
-        if (action.type === 'ADD-POST') {
-            const newPost: PostData = {
-                id: 3,
-                message: action.postText,
-                likesCount: 0
-            };
-            this._state.profilePage.posts.push(newPost);
-            this._onChange(this._state);
-
-        } else if (action.type === 'CHANGE-NEW-TEXT') {
-            this._state.profilePage.newPostText = action.newMsgText;
-            this._onChange(this._state);
-        }
+      this._state.profilePage = profileReducer(this._state.profilePage,action);
+      this._onChange(this._state);
     },
 }
 export default store;

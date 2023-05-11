@@ -25,7 +25,7 @@ function App(props: PropsType) {
                         <Route path="/profile" element={<Profile
                             posts={state.profilePage.posts}
                             message={state.profilePage.newPostText}
-                            dispatch={props.store.dispatch.bind(props.store)} //bind
+                            dispatch={props.store.dispatch.bind(props.store)}
                         />
                         }/>
                     </Routes>

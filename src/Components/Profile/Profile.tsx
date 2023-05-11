@@ -1,13 +1,14 @@
 import React from 'react';
 import s from './Profile.module.css';
 import MyPosts from './MyPosts/MyPosts';
-import {ActionsTypes, PostData} from '../../redux/state';
+import {PostData} from '../../redux/state';
 import ProfileInfo from './ProfileInfo/ProfileInfo';
+import {ProfileTypes} from '../../redux/profileReducer';
 
 type ProfileInfoPropsType = {
     message: string,
     posts: PostData[],
-    dispatch: (action: ActionsTypes) => void;
+    dispatch: (action: ProfileTypes) => void;
 }
 
 const Profile = (props: ProfileInfoPropsType) => {
