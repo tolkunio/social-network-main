@@ -1,7 +1,8 @@
 import {PostData, ProfilePageType} from './state';
+import {DialogsType} from './dialogsReducer';
 export const ADD_POST ='ADD-POST';
 export const UPDATE_NEW_POST_TEXT='UPDATE-NEW-POST-TEXT';
-export const profileReducer=(state:ProfilePageType, action:ProfileTypes)=>{
+export const profileReducer=(state:ProfilePageType, action:ProfileTypes|DialogsType)=>{
     switch (action.type) {
         case UPDATE_NEW_POST_TEXT:{
              state.newPostText = action.payload.newMsgText;

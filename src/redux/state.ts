@@ -1,15 +1,16 @@
 import {profileReducer, ProfileTypes} from './profileReducer';
+import {dialogsReducer, DialogsType} from './dialogsReducer';
 
 export type PostData = {
     id: number,
     message: string,
     likesCount: number
 }
-type Dialog = {
+export type Dialog = {
     id: number,
     name: string,
 };
-type MessageType = {
+export type MessageType = {
     id: number;
     message: string;
 };
@@ -20,10 +21,9 @@ export type ProfilePageType = {
 export type DialogPageType = {
     dialogsData: Dialog[],
     messagesData: MessageType[],
-    // newMessagesBody: string,
+    newMessagesBody: string,
 }
-const UPDATE_NEW_MESSAGE_BODY='UPDATE-NEW-MESSAGE-BODY';
-const SEND_MESSAGE='SEND-MESSAGE';
+
 
 type SidebarType = {};
 export type RootStateType = {
@@ -37,7 +37,7 @@ export type StoreType = {
     _onChange: (state: RootStateType) => void,
     _subscribe: (observer: (state: RootStateType) => void) => void,
     getState: () => RootStateType;
-    dispatch: (action: ProfileTypes) => void;
+    dispatch: (action: ProfileTypes |DialogsType) => void;
 }
 
 //main class
@@ -64,7 +64,7 @@ let store: StoreType = {
                 {id: 2, message: 'Good day'},
                 {id: 3, message: 'Hello'},
             ],
-            // newMessagesBody: ''
+            newMessagesBody: ''
         },
         sidebar: '',
     },
@@ -83,6 +83,7 @@ let store: StoreType = {
 
     dispatch(action): void {
       this._state.profilePage = profileReducer(this._state.profilePage,action);
+      this._state.dialogsPage = dialogsReducer(this._state.dialogsPage,action);
       this._onChange(this._state);
     },
 }

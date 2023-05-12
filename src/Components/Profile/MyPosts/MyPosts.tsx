@@ -3,16 +3,15 @@ import s from './MyPosts.module.css';
 import {PostData} from '../../../redux/state';
 import Post from './Post/Post';
 import {
-    ADD_POST,
-    UPDATE_NEW_POST_TEXT,
     ProfileTypes,
     addNewPostAC,
     changeNewTextAC
 } from '../../../redux/profileReducer';
+import {DialogsType} from '../../../redux/dialogsReducer';
 type ProfileInfoPropsType={
     msgForNewPost: string;
     posts:PostData[],
-    dispatch:(action:ProfileTypes)=>void,
+    dispatch:(action:ProfileTypes | DialogsType)=>void,
 }
 const MyPosts = (props:ProfileInfoPropsType) => {
 

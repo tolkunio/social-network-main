@@ -4,11 +4,12 @@ import MyPosts from './MyPosts/MyPosts';
 import {PostData} from '../../redux/state';
 import ProfileInfo from './ProfileInfo/ProfileInfo';
 import {ProfileTypes} from '../../redux/profileReducer';
+import {DialogsType} from '../../redux/dialogsReducer';
 
 type ProfileInfoPropsType = {
     message: string,
     posts: PostData[],
-    dispatch: (action: ProfileTypes) => void;
+    dispatch: (action:ProfileTypes |DialogsType) => void;
 }
 
 const Profile = (props: ProfileInfoPropsType) => {
