@@ -1,20 +1,29 @@
-import {profileReducer, ProfileTypes} from './profileReducer';
-import {dialogsReducer, DialogsType} from './dialogsReducer';
+import {addNewPostAC, changeNewTextAC, profileReducer, ProfileTypes} from './profileReducer';
+import {dialogsReducer, DialogsType, sendMessageAC, updateNewMessageBodyAC} from './dialogsReducer';
+import {v1} from 'uuid';
 
+export type ProfileInfoType = {
+    avatarImg: string
+    firstName: string
+    lastName: string
+    birthday: string
+    city: string
+}
 export type PostData = {
-    id: number,
+    id: string,
     message: string,
     likesCount: number
 }
 export type Dialog = {
-    id: number,
+    id: string,
     name: string,
 };
 export type MessageType = {
-    id: number;
+    id: string;
     message: string;
 };
 export type ProfilePageType = {
+    profileInfo: ProfileInfoType
     posts: PostData[],
     newPostText: string
 };
@@ -34,35 +43,54 @@ export type RootStateType = {
 
 export type StoreType = {
     _state: RootStateType;
-    _onChange: (state: RootStateType) => void,
+    _renderApp: (state: RootStateType) => void,
     _subscribe: (observer: (state: RootStateType) => void) => void,
     getState: () => RootStateType;
-    dispatch: (action: ProfileTypes |DialogsType) => void;
+    dispatch: (action: ActionType) => void;
 }
+export type ActionType = ReturnType<typeof changeNewTextAC> |
+    ReturnType<typeof addNewPostAC> |
+    ReturnType<typeof updateNewMessageBodyAC> |
+    ReturnType<typeof sendMessageAC>;
 
 //main class
-let store: StoreType = {
+export const store: StoreType = {
 
     _state: {
         profilePage: {
+            profileInfo: {
+                avatarImg: 'https://99px.ru/sstorage/56/2012/12/mid_76508_1420.jpg',
+                firstName: 'Tolkun',
+                lastName: 'Omurbekova',
+                birthday: 'September 25, 1995',
+                city: 'Bishkek'
+            },
             posts: [
-                {id: 1, message: 'hi,how are you', likesCount: 12},
-                {id: 2, message: 'hi! Its my first post', likesCount: 20},
+                {
+                    id: v1(),
+                    message: 'hi,how are you',
+                    likesCount: 12
+                },
+                {
+                    id: v1(),
+                    message: 'hi! Its my first post',
+                    likesCount: 20
+                },
             ],
             newPostText: 'it-kamasutra',
         },
         dialogsPage: {
             dialogsData: [
-                {name: 'Dimych', id: 1},
-                {name: 'Sasha', id: 2},
-                {name: 'Valera', id: 3},
-                {name: 'Valera', id: 4},
-                {name: 'Biktor', id: 5},
+                {name: 'Dimych', id: v1()},
+                {name: 'Sasha', id: v1()},
+                {name: 'Valera', id: v1()},
+                {name: 'Valera', id: v1()},
+                {name: 'Biktor', id: v1()},
             ],
             messagesData: [
-                {id: 1, message: 'Hi'},
-                {id: 2, message: 'Good day'},
-                {id: 3, message: 'Hello'},
+                {id: v1(), message: 'Hi, I am Alex'},
+                {id: v1(), message: 'Good day'},
+                {id: v1(), message: 'Where are you'},
             ],
             newMessagesBody: ''
         },
@@ -70,11 +98,11 @@ let store: StoreType = {
     },
 
 
-    _onChange(state: RootStateType) {
+    _renderApp(state: RootStateType) {
         console.log('State changed');
     },
     _subscribe(observer) {
-        this._onChange = observer;
+        this._renderApp = observer;
     },
 
     getState() {
@@ -82,9 +110,8 @@ let store: StoreType = {
     },
 
     dispatch(action): void {
-      this._state.profilePage = profileReducer(this._state.profilePage,action);
-      this._state.dialogsPage = dialogsReducer(this._state.dialogsPage,action);
-      this._onChange(this._state);
+        this._state.profilePage = profileReducer(this._state.profilePage, action);
+        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action);
+        this._renderApp(this._state);
     },
 }
-export default store;

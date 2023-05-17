@@ -1,17 +1,16 @@
 import React from 'react';
 import s from './MyPosts.module.css';
-import {PostData} from '../../../redux/store';
+import {ActionType, PostData} from '../../../../redux/store';
 import Post from './Post/Post';
 import {
-    ProfileTypes,
     addNewPostAC,
     changeNewTextAC
-} from '../../../redux/profileReducer';
-import {DialogsType} from '../../../redux/dialogsReducer';
+} from '../../../../redux/profileReducer';
+
 type ProfileInfoPropsType={
     msgForNewPost: string;
     posts:PostData[],
-    dispatch:(action:ProfileTypes | DialogsType)=>void,
+    dispatch:(action:ActionType)=>void,
 }
 const MyPosts = (props:ProfileInfoPropsType) => {
 

@@ -1,10 +1,10 @@
 import React from 'react';
 import s from './Profile.module.css';
 import MyPosts from './MyPosts/MyPosts';
-import {PostData} from '../../redux/store';
+import {PostData} from '../../../redux/store';
 import ProfileInfo from './ProfileInfo/ProfileInfo';
-import {ProfileTypes} from '../../redux/profileReducer';
-import {DialogsType} from '../../redux/dialogsReducer';
+import {ProfileTypes} from '../../../redux/profileReducer';
+import {DialogsType} from '../../../redux/dialogsReducer';
 
 type ProfileInfoPropsType = {
     message: string,

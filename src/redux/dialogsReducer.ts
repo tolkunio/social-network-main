@@ -1,14 +1,18 @@
-import {DialogPageType} from './store';
-import {ProfileTypes} from './profileReducer';
+import {ActionType, DialogPageType} from './store';
+import {v1} from 'uuid';
 
 const UPDATE_NEW_MESSAGE_BODY='UPDATE-NEW-MESSAGE-BODY';
 const SEND_MESSAGE='SEND-MESSAGE';
-export const dialogsReducer = (state:DialogPageType, action:DialogsType|ProfileTypes)=>{
+export const dialogsReducer = (state:DialogPageType, action:ActionType)=>{
     switch (action.type){
         case 'SEND-MESSAGE':{
             let body = state.newMessagesBody;
             state.newMessagesBody='';
-            state.messagesData.push({id:6,message:body});
+            state.messagesData.push(
+                {
+                    id:v1(),
+                    message:body
+                });
             return state;
         }
         case 'UPDATE-NEW-MESSAGE-BODY':{
