@@ -1,4 +1,4 @@
-import {DialogPageType} from './state';
+import {DialogPageType} from './store';
 import {ProfileTypes} from './profileReducer';
 
 const UPDATE_NEW_MESSAGE_BODY='UPDATE-NEW-MESSAGE-BODY';
