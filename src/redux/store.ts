@@ -1,5 +1,5 @@
-import {addNewPostAC, changeNewTextAC, profileReducer, ProfileTypes} from './profileReducer';
-import {dialogsReducer, DialogsType, sendMessageAC, updateNewMessageBodyAC} from './dialogsReducer';
+import {addNewPostAC, changeNewTextAC, profileReducer} from './profileReducer';
+import {dialogsReducer, sendMessageAC, updateNewMessageBodyAC} from './dialogsReducer';
 import {v1} from 'uuid';
 
 export type ProfileInfoType = {

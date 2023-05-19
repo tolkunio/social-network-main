@@ -1,14 +1,25 @@
 import React from 'react';
+import {ProfileInfoType} from '../../../../redux/store';
 
-const ProfileInfo = (props:any) => {
+type ProfileInfoPropsType ={
+    profileInfo:ProfileInfoType
+}
+const ProfileInfo = (props:ProfileInfoPropsType) => {
+    let profileInfo = props.profileInfo;
     return (
         <div>
             <div>
-                <img
-                    src="https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80 "/>
+                {profileInfo.firstName}{profileInfo.lastName}
             </div>
             <div>
-                ava+ desc
+                <img
+                    src={profileInfo.avatarImg}/>
+            </div>
+            <div>
+                {profileInfo.birthday}
+            </div>
+            <div>
+                {profileInfo.city}
             </div>
         </div>
     )

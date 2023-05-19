@@ -8,18 +8,16 @@ type ContentPropsType={
     dispatch:(action:ActionType)=>void
 }
 const Content = (props:ContentPropsType) => {
+    const state = props.state;
     return (
             <div className="app-wrapper-content">
                 <Routes>
-                    <Route path="/dialogs" element={<Dialogs dialogsData={props.state.dialogsPage.dialogsData}
-                                                             messagesData={props.state.dialogsPage.messagesData}
-                                                             newMessagesBody={props.state.dialogsPage.newMessagesBody}
-                                                             dispatch={props.dispatch.bind(props.state)}
+                    <Route path="/dialogs" element={<Dialogs dialogs={state.dialogsPage}
+                                                             dispatch={props.dispatch.bind(state)}
                     />}/>
                     <Route path="/profile" element={<Profile
-                        posts={props.state.profilePage.posts}
-                        message={props.state.profilePage.newPostText}
-                        dispatch={props.dispatch.bind(props.state)}
+                        profileData={state.profilePage}
+                        dispatch={props.dispatch.bind(state)}
                     />
                     }/>
                 </Routes>
