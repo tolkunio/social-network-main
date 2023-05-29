@@ -1,9 +1,8 @@
 import React, {ChangeEvent,KeyboardEvent} from 'react';
-import {ActionType} from '../../../../../redux/store';
-import {addNewPostAC, changeNewTextAC} from '../../../../../redux/profileReducer';
+import {addNewPostAC, changeNewTextAC, ProfileReducerActionType} from '../../../../../redux/profileReducer';
 type NewPostPropsType = {
     newPostText: string
-    dispatch: (action: ActionType) => void
+    dispatch: (action: ProfileReducerActionType) => void
 }
 const NewPost = (props:NewPostPropsType) => {
     const onChangeTextAreaHandler = (event: ChangeEvent<HTMLTextAreaElement>) => {

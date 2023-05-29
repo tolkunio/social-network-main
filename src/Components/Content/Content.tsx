@@ -1,27 +1,26 @@
 import React from 'react';
-import {ActionType, RootStateType} from '../../redux/store';
-import {Routes,Route} from 'react-router-dom';
+import {Routes, Route} from 'react-router-dom';
 import Profile from './Profile/Profile';
 import {Dialogs} from './Dialogs/Dialogs';
-type ContentPropsType={
-    state:RootStateType,
-    dispatch:(action:ActionType)=>void
+import {StoreType} from '../../redux/redux-store';
+
+type ContentPropsType = {
+    store: StoreType
 }
-const Content = (props:ContentPropsType) => {
-    const state = props.state;
+const Content = (props: ContentPropsType) => {
     return (
-            <div className="app-wrapper-content">
-                <Routes>
-                    <Route path="/dialogs" element={<Dialogs dialogs={state.dialogsPage}
-                                                             dispatch={props.dispatch.bind(state)}
-                    />}/>
-                    <Route path="/profile" element={<Profile
-                        profileData={state.profilePage}
-                        dispatch={props.dispatch.bind(state)}
-                    />
-                    }/>
-                </Routes>
-            </div>
+        <div className="app-wrapper-content">
+            <Routes>
+                <Route path="/dialogs" element={
+                    <Dialogs dialogs={props.store.getState().dialogsPage}
+                             dispatch={props.store.dispatch.bind(props.store.getState)}
+                />}/>
+                <Route path="/profile" element={
+                    <Profile store={props.store}
+                />
+                }/>
+            </Routes>
+        </div>
     );
 };
 
