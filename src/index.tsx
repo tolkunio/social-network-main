@@ -13,6 +13,6 @@ const renderApp = () => {
         document.getElementById('root')
     );
 }
-store.subscribe(renderApp);
-
 renderApp();
+store.subscribe(()=>{renderApp()});
+

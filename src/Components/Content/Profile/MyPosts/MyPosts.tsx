@@ -2,36 +2,28 @@ import React from 'react';
 import s from './MyPosts.module.css';
 import Post from './Post/Post';
 import {
-    addNewPostAC,
-    changeNewTextAC, PostData, ProfileReducerActionType
+    PostData
 } from '../../../../redux/profileReducer';
 
-type ProfileInfoPropsType={
-    msgForNewPost: string;
+type MyPostsInfoPropsType ={
     posts:PostData[],
-    dispatch:(action:ProfileReducerActionType)=>void,
+    msgForNewPost: string;
+    addPostCallback:()=>void,
+    changePostCallback:(text:string)=>void
 }
-const MyPosts = (props:ProfileInfoPropsType) => {
-
+const MyPosts = (props:MyPostsInfoPropsType) => {
     let postsDataElement=props.posts.map(post=>
         <Post id={post.id} message={post.message} likesCount={post.likesCount}/>);
 
-    const addPostHandler=()=> {
-         props.dispatch(addNewPostAC());
-    }
-    const changeMessageHandler=(newMsg:string)=> {
-        props.dispatch(changeNewTextAC(newMsg));
-    }
     return (
         <div className="posts">
             <h3>My posts:</h3>
             <div>
                 <div>
-                    <textarea onChange={e=>changeMessageHandler(e.currentTarget.value)}
+                    <textarea onChange={e=>props.changePostCallback(e.currentTarget.value)}
                               value={props.msgForNewPost}/>
-
                 </div>
-                <button onClick={addPostHandler}>Add Post</button>
+                <button onClick={props.addPostCallback}>Add Post</button>
             </div>
             {postsDataElement}
         </div>
