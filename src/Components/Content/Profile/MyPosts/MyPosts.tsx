@@ -1,16 +1,15 @@
 import React from 'react';
 import s from './MyPosts.module.css';
-import {ActionType, PostData} from '../../../../redux/store';
 import Post from './Post/Post';
 import {
     addNewPostAC,
-    changeNewTextAC
+    changeNewTextAC, PostData, ProfileReducerActionType
 } from '../../../../redux/profileReducer';
 
 type ProfileInfoPropsType={
     msgForNewPost: string;
     posts:PostData[],
-    dispatch:(action:ActionType)=>void,
+    dispatch:(action:ProfileReducerActionType)=>void,
 }
 const MyPosts = (props:ProfileInfoPropsType) => {
 
