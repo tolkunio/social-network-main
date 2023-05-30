@@ -35,7 +35,7 @@ const initializeState:DialogPageType={
             ],
             newMessagesBody: ''
         };
-export const dialogsReducer = (state: DialogPageType =initializeState, action: DialogsReducerActionType) => {
+export const dialogsReducer = (state: DialogPageType =initializeState, action: DialogsReducerActionType):DialogPageType => {
     switch (action.type) {
         case 'SEND-MESSAGE': {
             let body = state.newMessagesBody;

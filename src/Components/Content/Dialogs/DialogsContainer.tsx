@@ -1,48 +1,35 @@
-import React, {ChangeEvent} from 'react';
+import React from 'react';
 import s from './Dialogs.module.css';
-import DialogItem from './DialogItem/DialogItem';
-import Message from './Message/Message';
-import {sendMessageAC, updateNewMessageBodyAC} from '../../../redux/dialogsReducer';
-import {StoreType} from '../../../redux/redux-store';
+import {DialogPageType, sendMessageAC, updateNewMessageBodyAC} from '../../../redux/dialogsReducer';
+import {AppStateType} from '../../../redux/redux-store';
+import {Dialogs} from './Dialogs';
+import {connect} from 'react-redux';
+import {Dispatch} from 'redux';
 
-type DialogsContainerPropsType={
-    store:StoreType
+type MapStatePropsType = {
+    dialogsPage: DialogPageType
 }
-export const DialogsContainer = (props: DialogsContainerPropsType) => {
-    let dialogs = props.store.getState().dialogsPage;
-    let dialogsDataElement = dialogs.dialogsData.map(dialog => <DialogItem name={dialog.name} id={dialog.id}/>);
-
-    let messagesDataElement = dialogs.messagesData.map(msg => <Message message={msg.message}/>);
-    const onMessageClickHandler =()=>{
-        props.store.dispatch(sendMessageAC());
+type MapDispatchPropsType = {
+    changeNewMessageCallback: (messageDate: string) => void,
+    sendMessageCallback: () => void
+}
+export type DialogsPropsType = MapStatePropsType & MapDispatchPropsType;
+let mapStateToProps = (state: AppStateType) :MapStatePropsType=> {
+    return {
+        dialogsPage: state.dialogsPage
     }
-    const onNewMessageChange = (e:ChangeEvent<HTMLTextAreaElement>) => {
-        let body = e.currentTarget.value;
-        props.store.dispatch(updateNewMessageBodyAC(body));
-    };
-    return (
-        <div className={s.dialogs}>
-            <div className={s.dialogsItems}>
-                {dialogsDataElement}
-            </div>
-            <div className={s.messages}>
-                <div>
-                    {messagesDataElement}
-                </div>
-                <div>
-                    <div>
-                        <textarea
-                            value={dialogs.newMessagesBody}
-                            placeholder='enter your message'
-                            onChange={onNewMessageChange}>
-
-                        </textarea>
-                    </div>
-                    <div>
-                        <button onClick={onMessageClickHandler}>send</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-};
+}
+let mapDispatchToProps = (dispatch: Dispatch):MapDispatchPropsType => {
+    return {
+        changeNewMessageCallback: (messageData: string) => {
+            dispatch( updateNewMessageBodyAC(messageData))
+        },
+        sendMessageCallback: () => {
+           dispatch(sendMessageAC())
+        }
+    }
+}
+ const DialogsContainer =
+    connect<MapStatePropsType, MapDispatchPropsType, {}, AppStateType>
+    (mapStateToProps, mapDispatchToProps)(Dialogs);
+export default DialogsContainer;

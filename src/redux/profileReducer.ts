@@ -67,8 +67,6 @@ export const profileReducer = (state: ProfilePageType = initializeState, action:
             return state;
     }
 }
-
-
 export const changeNewTextAC = (newMsgText: string) => {
     return {
         type: UPDATE_NEW_POST_TEXT,

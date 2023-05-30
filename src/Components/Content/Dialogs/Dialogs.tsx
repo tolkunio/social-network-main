@@ -2,16 +2,12 @@ import React, {ChangeEvent} from 'react';
 import s from './Dialogs.module.css';
 import DialogItem from './DialogItem/DialogItem';
 import Message from './Message/Message';
-import {DialogPageType} from '../../../redux/dialogsReducer';
+import {DialogsPropsType} from './DialogsContainer';
 
-type DialogPropsType = {
-    dialogs: DialogPageType,
-    changeNewMessageCallback: (text: string) => void;
-    sendMessageCallback: () => void;
-}
-export const Dialogs = (props: DialogPropsType) => {
-    let dialogsDataElement = props.dialogs.dialogsData.map(dialog => <DialogItem name={dialog.name} id={dialog.id}/>);
-    let messagesDataElement =props.dialogs.messagesData.map(msg => <Message message={msg.message}/>);
+export const Dialogs = (props: DialogsPropsType) =>{
+
+    let dialogsDataElement = props.dialogsPage.dialogsData.map(dialog => <DialogItem name={dialog.name} id={dialog.id}/>);
+    let messagesDataElement =props.dialogsPage.messagesData.map(msg => <Message message={msg.message}/>);
     const onMessageClickHandler = () => {
         props.sendMessageCallback();
     }
@@ -31,7 +27,7 @@ export const Dialogs = (props: DialogPropsType) => {
                 <div>
                     <div>
                         <textarea
-                            value={props.dialogs.newMessagesBody}
+                            value={props.dialogsPage.newMessagesBody}
                             placeholder="enter your message"
                             onChange={onNewMessageChange}>
                         </textarea>
