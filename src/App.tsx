@@ -5,11 +5,11 @@ import Navbar from './Components/Navbar/Navbar';
 import {BrowserRouter} from 'react-router-dom';
 import Content from './Components/Content/Content';
 import {StoreType} from './redux/redux-store';
+import {UsersContainer} from './Components/Content/Users/UsersContainer';
 
 type AppPropsType = {
     store:StoreType
 }
-
 function App(props: AppPropsType) {
     return (
         <BrowserRouter>
@@ -22,5 +22,4 @@ function App(props: AppPropsType) {
 
     );
 }
-
 export default App;

@@ -39,17 +39,14 @@ export const dialogsReducer = (state: DialogPageType =initializeState, action: D
     switch (action.type) {
         case 'SEND-MESSAGE': {
             let body = state.newMessagesBody;
-            state.newMessagesBody = '';
-            state.messagesData.push(
-                {
-                    id: v1(),
-                    message: body
-                });
-            return state;
+            return {
+                ...state,
+                newMessagesBody:'',
+                messagesData:[...state.messagesData,{id:v1(),message:body}]
+            }
         }
         case 'UPDATE-NEW-MESSAGE-BODY': {
-            state.newMessagesBody = action.payload.newMessagesBody;
-            return state;
+            return {...state,newMessagesBody:action.payload.newMessagesBody};
         }
         default:
             return state;
