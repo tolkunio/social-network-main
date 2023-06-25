@@ -11,7 +11,7 @@ import {
     UserType
 } from '../../../redux/usersReducer';
 import {Dispatch} from 'redux';
-import {Users} from './UsersC';
+import {UsersAPIComponent} from './UsersAPIComponent';
 
 type MapStatePropsType = {
     users: UserPage,
@@ -57,4 +57,4 @@ let mapDispatchToProps = (dispatch: Dispatch): MapDispatchPropsType => {
 
 export const UsersContainer =
     connect<MapStatePropsType, MapDispatchPropsType, {}, AppStateType>
-    (mapStateToProps, mapDispatchToProps)(Users);
+    (mapStateToProps, mapDispatchToProps)(UsersAPIComponent);
