@@ -3,7 +3,7 @@ export type UserType = {
     name: string,
     status: string,
     photos: Photo
-    followed: boolean
+    followed: boolean,
 }
 export type Photo = {
     small?: string
@@ -13,7 +13,8 @@ export type UserPage = {
     users: UserType[];
     pageSize: number,
     totalUserCount: number,
-    currentPage:number
+    currentPage:number,
+    isFetching:boolean
 }
 
 export const FOLLOW = 'FOLLOW';
@@ -21,19 +22,23 @@ export const UNFOLLOW = 'UNFOLLOW';
 export const SET_USER = 'SET_USER';
 const SET_TOTAL_PAGE = 'SET-TOTAL-PAGE';
 const SET_CURRENT_PAGE = 'SET-CURRENT-PAGE';
+const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
 
 export type FollowType = ReturnType<typeof followAC>;
 export type UnFollowType = ReturnType<typeof unFollowAC>;
 export type SetUserType = ReturnType<typeof setUserAC>;
 export type SetTotalPage = ReturnType<typeof setTotalUserCountAC>;
 export type SetCurrentPage = ReturnType<typeof setCurrentPageAC>;
-export type UsersReducerActionType = FollowType | UnFollowType | SetUserType | SetTotalPage |SetCurrentPage;
+export type ToggleIsFetching = ReturnType<typeof toggleIsFetchingAC>;
+export type UsersReducerActionType = FollowType
+    | UnFollowType | SetUserType | SetTotalPage |SetCurrentPage |ToggleIsFetching;
 
 let initalState: UserPage = {
     users: [],
     totalUserCount: 20,
     pageSize: 5,
-    currentPage:3
+    currentPage:3,
+    isFetching:true
 }
 export const usersReducer = (state: UserPage = initalState, action: UsersReducerActionType) => {
     switch (action.type) {
@@ -58,6 +63,11 @@ export const usersReducer = (state: UserPage = initalState, action: UsersReducer
             return {
                 ...state,
                 currentPage:action.payload.currentPage
+            }
+        case TOGGLE_IS_FETCHING:
+            return {
+                ...state,
+            isFetching:action.payload.isFetching
             }
         default:
             return state;
@@ -98,5 +108,11 @@ export const setCurrentPageAC = (currentPage: number) => {
     return {
         type: SET_CURRENT_PAGE,
         payload: {currentPage}
+    } as const
+};
+export const toggleIsFetchingAC = (isFetching: boolean) => {
+    return {
+        type: TOGGLE_IS_FETCHING,
+        payload: {isFetching}
     } as const
 };
