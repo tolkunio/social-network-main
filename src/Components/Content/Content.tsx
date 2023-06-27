@@ -18,7 +18,7 @@ const Content = (props: ContentPropsType) => {
                     />
                 }/>
                 <Route path="/users" element={
-                    <UsersContainer onPageChanged={()=>{}}/>
+                    <UsersContainer/>
                 }/>
             </Routes>
         </div>

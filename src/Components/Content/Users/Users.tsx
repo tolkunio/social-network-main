@@ -1,13 +1,26 @@
 import React from 'react';
 import style from './Users.module.css';
-import {UsersAPIPropsType} from './UsersAPIComponent';
+import {UserPage, UserType} from '../../../redux/usersReducer';
 
-const Users = (props:UsersAPIPropsType) => {
+type UserPropsType={
+    users: UserPage,
+    pageSize: number,
+    totalUserCount: number,
+    currentPage: number,
+    follow: (userId: string) => void
+    unFollow: (userId: string) => void
+    setUsers: (user: Array<UserType>) => void,
+    setTotalPage: (totalPage: number) => void
+    setCurrentPage: (currentPage: number) => void
+    onPageChanged:(pageNumber:number)=>void
+}
+const Users = (props: UserPropsType) => {
     let pages = [];
-    let pagesCount =Math.ceil(props.totalUserCount/props.pageSize);
+    let pagesCount = Math.ceil(props.totalUserCount / props.pageSize);
     for (let i = 1; i <= pagesCount; i++) {
         pages.push(i);
-    };
+    }
+    ;
     let indexOfCurrentPage = pages.indexOf(props.currentPage);
     let pagesOk = pages.slice(props.currentPage >= 7 ? indexOfCurrentPage - 7 : 0, indexOfCurrentPage + 7);
     return (
