@@ -7,12 +7,14 @@ import {store} from './redux/redux-store';
 
 const renderApp = () => {
     ReactDOM.render(
-       <Provider store={store}>
-        <App store={store}/>
-       </Provider>,
+        <Provider store={store}>
+            <App/>
+        </Provider>,
         document.getElementById('root')
     );
 }
 renderApp();
-store.subscribe(()=>{renderApp()});
+store.subscribe(() => {
+    renderApp()
+});
 

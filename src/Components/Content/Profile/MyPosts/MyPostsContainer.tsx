@@ -7,7 +7,6 @@ import MyPosts from './MyPosts';
 import {AppStateType, StoreType} from '../../../../redux/redux-store';
 import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
-import {DialogPageType} from '../../../../redux/dialogsReducer';
 
 type MapStatePropsType = {
     profilePage: ProfilePageType,

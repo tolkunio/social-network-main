@@ -3,15 +3,15 @@ import s from './Profile.module.css';
 import ProfileInfo from './ProfileInfo/ProfileInfo';
 import {StoreType} from '../../../redux/redux-store';
 import {MyPostsContainer} from './MyPosts/MyPostsContainer';
+import {ProfilePageType} from '../../../redux/profileReducer';
+type ProfilePropsType={
+    profilePage:ProfilePageType,
 
-type ProfileInfoPropsType = {
-    store:StoreType
 }
-
-const Profile = (props: ProfileInfoPropsType) => {
+const Profile = (props: ProfilePropsType) => {
     return (
         <div>
-            <ProfileInfo store={props.store}/>
+            <ProfileInfo profileInfo={props.profilePage.profileInfo}/>
             <MyPostsContainer/>
         </div>
     );

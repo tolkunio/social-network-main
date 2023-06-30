@@ -16,7 +16,7 @@ import axios from 'axios';
 import Users from './Users';
 import Preloader from '../Common/Preloader/Preloader';
 
-export type UsersAPIPropsType = {
+export type UsersContainerPropsType = {
     users: UserPage,
     pageSize: number,
     totalUserCount: number,
@@ -30,7 +30,7 @@ export type UsersAPIPropsType = {
     setToggleIsFetching: (isFetching: boolean) => void
 }
 
-export class UsersAPIComponent extends React.Component<UsersAPIPropsType, {}> {
+class UsersContainer extends React.Component<UsersContainerPropsType, {}> {
     componentDidMount() {
         this.props.setToggleIsFetching(true);
         axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`,
@@ -106,38 +106,14 @@ const mapStateToProps = (state: AppStateType): MapStatePropsType => {
         isFetching: state.userPage.isFetching
     }
 }
-let mapDispatchToProps = (dispatch: Dispatch): MapDispatchPropsType => {
-    return {
-        follow: (userId: string) => {
-            dispatch(follow(userId));
-        },
-        unFollow: (userId: string) => {
-            dispatch(unFollow(userId));
-        },
-        setUsers: (users: UserType[]) => {
-            dispatch(setUsers(users));
-        },
-        setTotalUsersCount: (totalPage: number) => {
-            dispatch(setTotalUsersCount(totalPage));
-        },
-        setCurrentPage: (currentPage: number) => {
-            dispatch(setCurrentPage(currentPage));
-        },
-        setToggleIsFetching: (isFetching: boolean) => {
-            dispatch(setToggleIsFetching(isFetching));
-        }
-    }
-}
-
-export const UsersContainer =
-    connect<MapStatePropsType, MapDispatchPropsType, {}, AppStateType>
-    (mapStateToProps,
-        {
-            follow,
-            unFollow,
-            setUsers,
-            setTotalUsersCount,
-            setCurrentPage,
-            setToggleIsFetching
-        })
-    (UsersAPIComponent);
+export default connect<MapStatePropsType, MapDispatchPropsType, {}, AppStateType>
+(mapStateToProps,
+    {
+        follow,
+        unFollow,
+        setUsers,
+        setTotalUsersCount,
+        setCurrentPage,
+        setToggleIsFetching
+    })
+(UsersContainer);

@@ -1,11 +1,28 @@
 import {v1} from 'uuid';
+import avatar from '../assets/images/Avatar.png';
 
 export type ProfileInfoType = {
-    avatarImg: string
-    firstName: string
-    lastName: string
-    birthday: string
-    city: string
+    userId:string,
+    fullName:string,
+    aboutMe:string,
+    contacts:ProfileContactType,
+    lookingForAJob:boolean,
+    lookingForAJobDescription:string,
+    photos:Photo,
+}
+export type ProfileContactType={
+    facebook?:string,
+    website?:string,
+    vk?:string,
+    twitter?:string,
+    instagram?:string,
+    youtube?:string,
+    mainLink?:string|null
+}
+
+export type Photo = {
+    small?: string
+    large?: string,
 }
 export type PostData = {
     id: string,
@@ -20,18 +37,27 @@ export type ProfilePageType = {
 };
 export type ChangeNewTextType = ReturnType<typeof changeNewTextAC>;
 export type AddNewPostType = ReturnType<typeof addNewPostAC>;
+export type SetUserProfileType = ReturnType<typeof setUserProfile>;
 
-export type ProfileReducerActionType = ChangeNewTextType | AddNewPostType;
+export type ProfileReducerActionType = ChangeNewTextType | AddNewPostType | SetUserProfileType;
 export const ADD_POST = 'ADD-POST';
 export const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
+export const SET_USER_PROFILE = 'SET-USER-PROFILE';
 
 const initializeState: ProfilePageType = {
     profileInfo: {
-        avatarImg: 'https://99px.ru/sstorage/56/2012/12/mid_76508_1420.jpg',
-        firstName: 'Tolkun',
-        lastName: 'Omurbekova',
-        birthday: 'September 25, 1995',
-        city: 'Bishkek'
+        userId:'klk',
+        fullName:'Omurbekova Tolkun',
+        aboutMe:'React Developer',
+        lookingForAJobDescription:'js react redux',
+        lookingForAJob:true,
+        contacts:{
+            mainLink:'tolkunio.githubb.io'
+        },
+        photos:{
+            small:avatar,
+            large:''
+        }
     },
     posts: [
         {
@@ -62,12 +88,15 @@ export const profileReducer = (state: ProfilePageType = initializeState, action:
             };
             let stateCopy = {
                 ...state,
-                posts:[...state.posts,]
+                posts: [...state.posts,]
             };
-            stateCopy.posts =[...state.posts];
+            stateCopy.posts = [...state.posts];
             stateCopy.posts.push(newPost);
             stateCopy.newPostText = '';
             return stateCopy;
+        }
+        case SET_USER_PROFILE: {
+            return {...state, profileInfo: action.payload.profile}
         }
         default:
             return state;
@@ -86,4 +115,13 @@ export const addNewPostAC = () => {
     return {
         type: ADD_POST,
     } as const
+}
+
+export const setUserProfile = (profile: ProfileInfoType) => {
+    return {
+        type: SET_USER_PROFILE,
+        payload: {
+            profile
+        }
+    } as const;
 }

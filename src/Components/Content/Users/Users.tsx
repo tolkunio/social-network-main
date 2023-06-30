@@ -1,8 +1,9 @@
 import React from 'react';
 import style from './Users.module.css';
 import {UserPage, UserType} from '../../../redux/usersReducer';
+import {NavLink} from 'react-router-dom';
 
-type UserPropsType={
+type UserPropsType = {
     users: UserPage,
     pageSize: number,
     totalUserCount: number,
@@ -12,7 +13,7 @@ type UserPropsType={
     setUsers: (user: Array<UserType>) => void,
     setTotalPage: (totalPage: number) => void
     setCurrentPage: (currentPage: number) => void
-    onPageChanged:(pageNumber:number)=>void
+    onPageChanged: (pageNumber: number) => void
 }
 const Users = (props: UserPropsType) => {
     let pages = [];
@@ -39,13 +40,15 @@ const Users = (props: UserPropsType) => {
             {props.users.users.map(u => <div key={u.id}>
                     <span>
                         <div>
-                            <img className={style.photo} src={u.photos.small}/>
+                           <NavLink to={`profile/${u.id}`}>
+                                <img className={style.photo} src={u.photos.small}/>
+                           </NavLink>
                         </div>
                         <div>
                         {
                             u.followed ?
                                 <button onClick={() => props.unFollow(u.id)}>UnFollow</button>
-                                : <button onClick={() => props.follow(u.id)}>UnFollow</button>
+                                : <button onClick={() => props.follow(u.id)}>Follow</button>
                         }
                     </div>
                         <span>

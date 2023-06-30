@@ -1,25 +1,36 @@
 import React from 'react';
-import {StoreType} from '../../../../redux/redux-store';
+import {ProfileInfoType} from '../../../../redux/profileReducer';
+import Preloader from '../../Common/Preloader/Preloader';
 
-type ProfileInfoPropsType ={
-   store:StoreType
+type ProfileInfoPropsType = {
+    profileInfo: ProfileInfoType;
 }
-const ProfileInfo = (props:ProfileInfoPropsType) => {
-    let profileInfo = props.store.getState().profilePage.profileInfo
+const ProfileInfo = (props: ProfileInfoPropsType) => {
+    if(!props.profileInfo){
+        return <Preloader/>
+    }
+    let {
+        fullName,
+        aboutMe,
+        photos,
+        lookingForAJob,
+        lookingForAJobDescription,
+        contacts
+    } = props.profileInfo;
     return (
         <div>
             <div>
-                {profileInfo.firstName}{profileInfo.lastName}
+               <h2> {fullName}</h2>
+                <p>{aboutMe}</p>
             </div>
             <div>
                 <img
-                    src={profileInfo.avatarImg}/>
+                    src={photos.small}/>
             </div>
+            <div>{lookingForAJob}</div>
+            <div>{lookingForAJobDescription}</div>
             <div>
-                {profileInfo.birthday}
-            </div>
-            <div>
-                {profileInfo.city}
+                {contacts.mainLink}
             </div>
         </div>
     )
