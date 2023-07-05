@@ -4,15 +4,13 @@ import axios from 'axios';
 import {connect} from 'react-redux';
 import {AppStateType} from '../../redux/redux-store';
 import {AuthUserType, setAuthUserData} from '../../redux/auth-reducer';
+import {UserApi} from '../../api/api';
 
-type HeaderContainerPropsType=MapStatePropsType & MapDispatchPropsType;
+type HeaderContainerPropsType = MapStatePropsType & MapDispatchPropsType;
+
 class HeaderContainer extends React.Component<HeaderContainerPropsType> {
     componentDidMount() {
-        axios.get(`https://social-network.samuraijs.com/api/1.0/auth/me`,
-            {
-                withCredentials: true,
-                headers: {'API-KEY': '7710dd5f-ea56-47ff-b059-6e7cb78ca047'}
-            })
+        UserApi.authMe()
             .then((res) => {
                 if (res.data.resultCode === 0) {
                     this.props.setAuthUserData(res.data.data)
@@ -34,10 +32,10 @@ export type MapStatePropsType = {
     login: string,
     isAuth: boolean,
 }
-export type MapDispatchPropsType={
+export type MapDispatchPropsType = {
     setAuthUserData: (authData: AuthUserType) => void;
 }
-const mapStateToProps = (state: AppStateType):MapStatePropsType => {
+const mapStateToProps = (state: AppStateType): MapStatePropsType => {
     return {
         userId: state.auth.userId,
         email: state.auth.email,
@@ -46,7 +44,7 @@ const mapStateToProps = (state: AppStateType):MapStatePropsType => {
     }
 }
 export default connect<MapStatePropsType,
-                      MapDispatchPropsType,
-                      {},
-                       AppStateType>
+    MapDispatchPropsType,
+    {},
+    AppStateType>
 (mapStateToProps, {setAuthUserData})(HeaderContainer);

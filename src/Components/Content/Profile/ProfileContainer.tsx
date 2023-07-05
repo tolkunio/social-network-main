@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {AppStateType} from '../../../redux/redux-store';
 import {ProfileInfoType, ProfilePageType, setUserProfile} from '../../../redux/profileReducer';
 import {RouteComponentProps, withRouter } from 'react-router-dom'
+import {ProfileApi} from '../../../api/api';
 
 type PathParamsType={
     userId:string
@@ -18,11 +19,7 @@ class ProfileContainer extends React.Component<CommonProfileContainerPropsType> 
         let userId =match.params.userId;
         if(!userId) userId='1';
 
-        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/${userId}`,
-            {
-                withCredentials: true,
-                headers: {'API-KEY': '7710dd5f-ea56-47ff-b059-6e7cb78ca047'}
-            })
+        ProfileApi.getProfileUserById(userId)
             .then((res) => {
                 setUserProfile(res.data)
             });
