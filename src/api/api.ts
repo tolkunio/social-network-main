@@ -18,7 +18,7 @@ export const UserApi = {
        return instance.post(`https://social-network.samuraijs.com/api/1.0/follow/${userId}`, {})
     },
     unfollow(userId: string) {
-        return instance.delete(`https://social-network.samuraijs.com/api/1.0/unfollow/${userId}`)
+        return instance.delete(`https://social-network.samuraijs.com/api/1.0/follow/${userId}`)
     }
 }
 export const ProfileApi = {
