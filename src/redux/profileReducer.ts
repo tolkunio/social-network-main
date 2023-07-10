@@ -1,5 +1,7 @@
 import {v1} from 'uuid';
 import avatar from '../assets/images/Avatar.png';
+import {Dispatch} from 'redux';
+import {ProfileApi} from '../api/api';
 
 export type ProfileInfoType = {
     userId:string,
@@ -124,4 +126,10 @@ export const setUserProfile = (profile: ProfileInfoType) => {
             profile
         }
     } as const;
+}
+export const getProfileUserByIdTC=(userId:string)=>(dispatch:Dispatch)=>{
+    ProfileApi.getProfileUserById(userId)
+        .then((res) => {
+            dispatch(setUserProfile(res.data));
+        });
 }

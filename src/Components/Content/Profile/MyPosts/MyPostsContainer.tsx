@@ -4,7 +4,7 @@ import {
     changeNewTextAC, ProfilePageType
 } from '../../../../redux/profileReducer';
 import MyPosts from './MyPosts';
-import {AppStateType, StoreType} from '../../../../redux/redux-store';
+import {AppRootStateType} from '../../../../redux/redux-store';
 import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
 
@@ -18,7 +18,7 @@ type MapDispatchPropsType = {
 
 }
 export type MyPostsPropsType = MapStatePropsType & MapDispatchPropsType;
-let mapStateToProps = (state: AppStateType):MapStatePropsType => {
+let mapStateToProps = (state: AppRootStateType):MapStatePropsType => {
     return {
         profilePage: state.profilePage,
         msgForNewPost: state.profilePage.newPostText
@@ -35,5 +35,5 @@ let mapDispatchToProps = (dispatch: Dispatch):MapDispatchPropsType => {
     }
 }
 export const MyPostsContainer =
-    connect<MapStatePropsType,MapDispatchPropsType,{},AppStateType>
+    connect<MapStatePropsType,MapDispatchPropsType,{},AppRootStateType>
     (mapStateToProps, mapDispatchToProps)(MyPosts);

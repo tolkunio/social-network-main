@@ -1,33 +1,24 @@
 import React from 'react';
 import style from './Users.module.css';
-import {UserPage, UserType} from '../../../redux/usersReducer';
+import {UserPage} from '../../../redux/usersReducer';
 import {NavLink} from 'react-router-dom';
-import {UserApi} from '../../../api/api';
 
 type UserPropsType = {
     users: UserPage,
-    follow: (userId: string) => void
-    unFollow: (userId: string) => void
-    setUsers: (user: Array<UserType>) => void,
-    setTotalPage: (totalPage: number) => void
-    setCurrentPage: (currentPage: number) => void
+    follow: (userId:string) => void;
+    unFollow: (userId:string) => void;
     onPageChanged: (pageNumber: number) => void,
-    followToggleInProgress: (followToggleUserId: string, isFetching: boolean) => void
 }
 const Users = (props: UserPropsType) => {
     let pages = [];
-    let pagesCount = Math.ceil(props.users.totalUserCount / props.users.pageSize);
-    for (let i = 1; i <= pagesCount; i++) {
+    for (let i = 1; i <= props.users.totalUserCount; i++) {
         pages.push(i);
     }
-
-    let indexOfCurrentPage = pages.indexOf(props.users.currentPage);
-    let pagesOk = pages.slice(props.users.currentPage >= 7 ? indexOfCurrentPage - 7 : 0, indexOfCurrentPage + 7);
     return (
         <div>
             <div>
-                {pagesOk.map(p => {
-                    return <span className={props.users.currentPage === p ? style.activePage : ''}
+                {pages.map(p => {
+                    return <span key={p} className={props.users.currentPage === p ? style.activePage : ''}
                                  onClick={() => {
                                      props.onPageChanged(p)
                                  }}>
@@ -47,34 +38,16 @@ const Users = (props: UserPropsType) => {
                 <div>
                     {
                         u.followed
-                            ? <button disabled={props.users.followedToggleUsersId.some(id=>id!==u.id)} onClick={
-                                () => {
-                                    props.followToggleInProgress(u.id,true);
-                                    UserApi.unfollow(u.id)
-                                        .then(
-                                            res => {
-                                                if (res.data.resultCode == 0) {
-                                                    props.unFollow(u.id)
-                                                }
-                                                props.followToggleInProgress(u.id,false);
-                                            }
-                                        );
-                                }
-                            }>
+                            ? <button
+                                disabled={props.users.followedToggleUsersId.some(id=>id!==u.id)}
+                                onClick={()=>{props.unFollow(u.id)}}>
                                 UnFollow
                             </button>
-                            : <button disabled={props.users.followedToggleUsersId.some(id=>id!==u.id)} onClick={() => {
-                                props.followToggleInProgress(u.id,true);
-                                UserApi.follow(u.id)
-                                    .then(
-                                        res => {
-                                            if (res.data.resultCode == 0) {
-                                                props.follow(u.id)
-                                            }
-                                            props.followToggleInProgress(u.id,false);
-                                        }
-                                    );
-                            }}>Follow</button>
+                            : <button
+                                disabled={props.users.followedToggleUsersId.some(id=>id!==u.id)}
+                                    onClick={() => {props.follow(u.id)}}>
+                                Follow
+                            </button>
                     }
                 </div>
             </div>)

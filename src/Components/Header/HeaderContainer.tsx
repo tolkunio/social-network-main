@@ -1,16 +1,17 @@
 import React from 'react';
 import Header from './Header';
-import axios from 'axios';
 import {connect} from 'react-redux';
-import {AppStateType} from '../../redux/redux-store';
-import {AuthUserType, setAuthUserData} from '../../redux/auth-reducer';
-import {UserApi} from '../../api/api';
+import {AppRootStateType} from '../../redux/redux-store';
+import {authUserTC, AuthUserType, setAuthUserData} from '../../redux/auth-reducer';
+import {userApi} from '../../api/api';
 
 type HeaderContainerPropsType = MapStatePropsType & MapDispatchPropsType;
 
 class HeaderContainer extends React.Component<HeaderContainerPropsType> {
     componentDidMount() {
-        UserApi.authMe()
+        // console.log('constructor componentDidMount()')
+        // authUserTC();
+        userApi.authMe()
             .then((res) => {
                 if (res.data.resultCode === 0) {
                     this.props.setAuthUserData(res.data.data)
@@ -19,10 +20,11 @@ class HeaderContainer extends React.Component<HeaderContainerPropsType> {
     }
 
     render() {
-        return <Header userId={this.props.userId}
-                       login={this.props.login}
-                       email={this.props.email}
-                       isAuth={this.props.isAuth}
+        const {userId, login, email, isAuth} = this.props;
+        return <Header userId={userId}
+                       login={login}
+                       email={email}
+                       isAuth={isAuth}
         />
     }
 };
@@ -34,17 +36,19 @@ export type MapStatePropsType = {
 }
 export type MapDispatchPropsType = {
     setAuthUserData: (authData: AuthUserType) => void;
+    authUserTC: () => void
 }
-const mapStateToProps = (state: AppStateType): MapStatePropsType => {
+const mapStateToProps = (state: AppRootStateType): MapStatePropsType => {
+    const {userId, email, login, isAuth} = state.auth;
     return {
-        userId: state.auth.userId,
-        email: state.auth.email,
-        login: state.auth.login,
-        isAuth: state.auth.isAuth
+        userId,
+        email,
+        login,
+        isAuth
     }
 }
 export default connect<MapStatePropsType,
     MapDispatchPropsType,
     {},
-    AppStateType>
-(mapStateToProps, {setAuthUserData})(HeaderContainer);
+    AppRootStateType>
+(mapStateToProps, {authUserTC, setAuthUserData})(HeaderContainer);

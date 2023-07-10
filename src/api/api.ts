@@ -1,13 +1,11 @@
 import axios from 'axios';
-import {AuthUserType} from '../redux/auth-reducer';
-import {UserType} from '../redux/usersReducer';
 
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.0',
     withCredentials: true,
     headers: {'API-KEY': '7710dd5f-ea56-47ff-b059-6e7cb78ca047'}
 })
-export const UserApi = {
+export const userApi = {
     getUsers(currentPage: number, pageSize: number) {
         return instance.get(`https://social-network.samuraijs.com/api/1.0/users?page=${currentPage}&count=${pageSize}`);
     },
