@@ -4,7 +4,8 @@ import {connect} from 'react-redux';
 import {AppRootStateType} from '../../../redux/redux-store';
 import {getProfileUserByIdTC, ProfilePageType} from '../../../redux/profileReducer';
 import {RouteComponentProps, withRouter} from 'react-router-dom'
-import WithAuthRedirect from '../../../hoc/WithAuthRedirect';
+import {compose} from 'redux';
+import withAuthRedirect, {WithAuthRedirect} from '../../../hoc/WithAuthRedirect';
 
 type PathParamsType = {
     userId: string
@@ -29,7 +30,6 @@ class ProfileContainer extends React.Component<CommonProfileContainerPropsType> 
         )
     }
 };
-
 type MapStatePropsType = {
     profilePage: ProfilePageType,
 }
@@ -47,3 +47,15 @@ export default WithAuthRedirect(connect<MapStatePropsType, MapDispatchPropsType,
     {
         getProfileUserByIdTC
     })(WithUrlDataContainerComponent));
+
+
+// export default compose(
+//     connect<MapStatePropsType, MapDispatchPropsType, {}, AppRootStateType>(
+//         mapStateToProps,
+//         {
+//             getProfileUserByIdTC
+//         }),
+//     withAuthRedirect,
+//     withRouter,
+// )
+// (ProfileContainer)
