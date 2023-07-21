@@ -35,16 +35,19 @@ export type PostData = {
 export type ProfilePageType = {
     profileInfo: ProfileInfoType
     posts: PostData[],
-    newPostText: string
+    newPostText: string,
+    status:string
 };
 export type ChangeNewTextType = ReturnType<typeof changeNewTextAC>;
 export type AddNewPostType = ReturnType<typeof addNewPostAC>;
-export type SetUserProfileType = ReturnType<typeof setUserProfile>;
+export type SetUserProfileType = ReturnType<typeof setUserProfileAC>;
+export type SetStatusType = ReturnType<typeof setStatusAC>;
 
-export type ProfileReducerActionType = ChangeNewTextType | AddNewPostType | SetUserProfileType;
+export type ProfileReducerActionType = ChangeNewTextType | AddNewPostType | SetUserProfileType|SetStatusType;
 export const ADD_POST = 'ADD-POST';
 export const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
 export const SET_USER_PROFILE = 'SET-USER-PROFILE';
+export const SET_STATUS = 'SET-STATUS';
 
 const initializeState: ProfilePageType = {
     profileInfo: {
@@ -54,7 +57,7 @@ const initializeState: ProfilePageType = {
         lookingForAJobDescription:'js react redux',
         lookingForAJob:true,
         contacts:{
-            mainLink:'tolkunio.githubb.io'
+            mainLink:'tolkunio.github.io'
         },
         photos:{
             small:avatar,
@@ -74,6 +77,7 @@ const initializeState: ProfilePageType = {
         },
     ],
     newPostText: 'it-kamasutra',
+    status:''
 }
 export const profileReducer = (state: ProfilePageType = initializeState, action: ProfileReducerActionType) => {
     switch (action.type) {
@@ -100,6 +104,9 @@ export const profileReducer = (state: ProfilePageType = initializeState, action:
         case SET_USER_PROFILE: {
             return {...state, profileInfo: action.payload.profile}
         }
+        case SET_STATUS:{
+            return {...state,status:action.payload.status}
+        }
         default:
             return state;
     }
@@ -119,7 +126,7 @@ export const addNewPostAC = () => {
     } as const
 }
 
-export const setUserProfile = (profile: ProfileInfoType) => {
+export const setUserProfileAC = (profile: ProfileInfoType) => {
     return {
         type: SET_USER_PROFILE,
         payload: {
@@ -127,9 +134,31 @@ export const setUserProfile = (profile: ProfileInfoType) => {
         }
     } as const;
 }
+export const setStatusAC = (status: string) => {
+    return {
+        type: SET_STATUS,
+        payload: {
+            status
+        }
+    } as const;
+}
 export const getProfileUserByIdTC=(userId:string)=>(dispatch:Dispatch)=>{
     ProfileApi.getProfileUserById(userId)
         .then((res) => {
-            dispatch(setUserProfile(res.data));
+            dispatch(setUserProfileAC(res.data));
         });
+}
+export const getStatusTC = (userId:string)=>(dispatch:Dispatch)=>{
+    ProfileApi.getStatus(userId)
+        .then((res)=>{
+            dispatch(setStatusAC(res.data))
+        });
+}
+export const updateStatusTC =(status:string)=>(dispatch:Dispatch)=>{
+    ProfileApi.updateStatus(status)
+        .then((res)=>{
+            if(res.data.resultCode===0){
+                dispatch(setStatusAC(status))
+            }
+        })
 }

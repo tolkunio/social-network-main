@@ -1,9 +1,12 @@
 import React from 'react';
 import {ProfileInfoType} from '../../../../redux/profileReducer';
 import Preloader from '../../Common/Preloader/Preloader';
+import ProfileStatus from './ProfileStatus';
 
 type ProfileInfoPropsType = {
     profileInfo: ProfileInfoType;
+    status:string;
+    updateStatus:(status:string)=>void
 }
 const ProfileInfo = (props: ProfileInfoPropsType) => {
     if(!props.profileInfo){
@@ -15,7 +18,7 @@ const ProfileInfo = (props: ProfileInfoPropsType) => {
         photos,
         lookingForAJob,
         lookingForAJobDescription,
-        contacts
+        contacts,
     } = props.profileInfo;
     return (
         <div>
@@ -32,6 +35,7 @@ const ProfileInfo = (props: ProfileInfoPropsType) => {
             <div>
                 {contacts.mainLink}
             </div>
+            <ProfileStatus status={props.status} updateStatus={props.updateStatus}/>
         </div>
     )
 };
